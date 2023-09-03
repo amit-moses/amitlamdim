@@ -1,0 +1,322 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    .panel {
+  box-shadow: none;
+}
+.panel-heading {
+  border-bottom: 0;
+}
+.panel-title {
+    margin-bottom: -15px;
+  font-size: 17px;
+}
+.panel-title > small {
+  font-size: .75em;
+  color: #999999;
+}
+.panel-body *:first-child {
+  margin-top: 0;
+}
+.panel-footer {
+  border-top: 0;
+}
+
+.panel-default > .panel-heading {
+    color: #333333;
+    background-color: transparent;
+    border-color: rgba(0, 0, 0, 0.07);
+}
+
+/**
+ * Profile
+ */
+/*** Profile: Header  ***/
+.profile__avatar {
+  float: right;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-right: 20px;
+  overflow: hidden;
+}
+@media (min-width: 768px) {
+  .profile__avatar {
+    width: 100px;
+    height: 100px;
+  }
+}
+.profile__avatar > img {
+  width: 100%;
+  height: auto;
+}
+.profile__header {
+  overflow: hidden;
+}
+.profile__header p {
+  margin: 20px 20px;
+}
+.profile__header h4 {
+  margin: 20px 20px;
+}
+/*** Profile: Table ***/
+/*** Profile: Recent activity ***/
+.profile-comments__item {
+  position: relative;
+  padding: 15px 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+.profile-comments__item:last-child {
+  border-bottom: 0;
+}
+.profile-comments__item:hover,
+.profile-comments__item:focus {
+  background-color: #f5f5f5;
+}
+.profile-comments__item:hover .profile-comments__controls,
+.profile-comments__item:focus .profile-comments__controls {
+  visibility: visible;
+}
+.profile-comments__controls {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 5px;
+  visibility: hidden;
+}
+.profile-comments__controls > a {
+  display: inline-block;
+  padding: 2px;
+  color: #999999;
+}
+.profile-comments__controls > a:hover,
+.profile-comments__controls > a:focus {
+  color: #333333;
+}
+.profile-comments__avatar {
+  display: block;
+  float: left;
+  margin-right: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.profile-comments__avatar > img {
+  width: 100%;
+  height: auto;
+}
+.profile-comments__body {
+  overflow: hidden;
+}
+.profile-comments__sender {
+  color: #333333;
+  font-weight: 500;
+  margin: 5px 0;
+}
+.profile-comments__sender > small {
+  margin-left: 5px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #999999;
+}
+@media (max-width: 767px) {
+  .profile-comments__sender > small {
+    display: block;
+    margin: 5px 0 10px;
+  }
+}
+.profile-comments__content {
+  color: #999999;
+}
+/*** Profile: Contact ***/
+.profile__contact-btn {
+  padding: 12px 20px;
+  margin-bottom: 20px;
+}
+.profile__contact-hr {
+  position: relative;
+  border-color: rgba(0, 0, 0, 0.1);
+  margin: 40px 0;
+}
+.profile__contact-hr:before {
+  content: "OR";
+  display: block;
+  padding: 10px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  background-color: #f5f5f5;
+  color: #c6c6cc;
+}
+.profile__contact-info-item {
+  margin-bottom: 30px;
+}
+.profile__contact-info-item:before,
+.profile__contact-info-item:after {
+  content: " ";
+  display: table;
+}
+.profile__contact-info-item:after {
+  clear: both;
+}
+.profile__contact-info-item:before,
+.profile__contact-info-item:after {
+  content: " ";
+  display: table;
+}
+.profile__contact-info-item:after {
+  clear: both;
+}
+.profile__contact-info-icon {
+  float: left;
+  font-size: 18px;
+  color: #999999;
+}
+.profile__contact-info-body {
+  overflow: hidden;
+  padding-left: 20px;
+  color: #999999;
+}
+.profile__contact-info-body a {
+  color: #999999;
+}
+.profile__contact-info-body a:hover,
+.profile__contact-info-body a:focus {
+  color: #999999;
+  text-decoration: none;
+}
+.profile__contact-info-heading {
+  margin-top: 2px;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #999999;
+}
+</style>
+
+<div dir="rtl" class="row container">
+    <div class="col-xs-12 col-sm-9">
+      
+      <!-- User profile -->
+      <div class="panel panel-default">
+        <div class="panel-heading">
+        </div>
+        <div class="panel-body">
+          <div class="profile__avatar">
+            <img src="{% if user.userdata.profile_pic %}{{user.userdata.profile_pic}}{% else %}https://cdn.vectorstock.com/i/preview-1x/62/59/default-avatar-photo-placeholder-profile-icon-vector-21666259.jpg{% endif %}" alt="...">
+          </div>
+          <div class="profile__header">
+            <h4>{{user.userdata.first_name}} {{user.userdata.last_name}}</h4>
+            <p class="text-muted">
+                {{user.userdata.details}}
+            </p>
+            <p>
+              {% if user.userdata.website %} <a href="{{user.userdata.website}}">{{user.userdata.website}}</a> {% endif %}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- User info -->
+      {%for tbn in user.userdata.get_exp_details%}
+      <div class="panel panel-default">
+        <div class="panel-heading">
+        <h4 class="panel-title"><span class="label label-{{tbn.design}}">{{tbn.category}}</span></h4>
+        </div>
+        <div class="panel-body row">
+          <table dir="rtl" class="table">
+            <tbody>
+            {% for ttr in tbn.expertise%}
+            <tr>
+                <th class="col-md-1 col-xs-2" dir="rtl"><strong>{{ttr}}</strong></th>
+                <td class="col-md-11 col-xs-10">{{ttr.description}}</td>
+              </tr>
+            {% endfor%}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      {% endfor %}
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+        <h4 class="panel-title">קורות חיים</h4>
+        </div>
+        <div class="panel-body row">
+          <table dir="rtl" class="table">
+            <tbody>
+            {% for myres in user.userdata.resume_set.all %}
+            <tr>
+                <th class="col-md-2 col-xs-3" dir="rtl"><strong>{{myres.title}}</strong></th>
+                <th class="col-md-2 col-xs-3" dir="rtl"><strong>{{myres.end_year}} - {{myres.start_year}}</strong></th>
+                <td class="col-md-8 col-xs-6">{{myres.text}}</td>
+              </tr>
+            {% endfor%}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+
+      
+     
+
+    </div>
+    <div class="col-xs-12 col-sm-3">
+      
+      <!-- Contact user -->
+      <p>
+        <a href="#" class="profile__contact-btn btn btn-lg btn-block btn-info" data-toggle="modal" data-target="#profile__contact-form">
+          Contact user
+        </a>
+      </p>
+
+      <hr class="profile__contact-hr">
+      
+      <!-- Contact info -->
+      <div class="profile__contact-info">
+        <div class="profile__contact-info-item">
+          <div class="profile__contact-info-icon">
+            <i class="fa fa-phone"></i>
+          </div>
+          <div class="profile__contact-info-body">
+            <h5 class="profile__contact-info-heading">Work number</h5>
+            (000)987-65-43
+          </div>
+        </div>
+        <div class="profile__contact-info-item">
+          <div class="profile__contact-info-icon">
+            <i class="fa fa-phone"></i>
+          </div>
+          <div class="profile__contact-info-body">
+            <h5 class="profile__contact-info-heading">Mobile number</h5>
+            (000)987-65-43
+          </div>
+        </div>
+        <div class="profile__contact-info-item">
+          <div class="profile__contact-info-icon">
+            <i class="fa fa-envelope-square"></i>
+          </div>
+          <div class="profile__contact-info-body">
+            <h5 class="profile__contact-info-heading">E-mail address</h5>
+            <a href="mailto:admin@domain.com">admin@domain.com</a>
+          </div>
+        </div>
+        <div class="profile__contact-info-item">
+          <div class="profile__contact-info-icon">
+            <i class="fa fa-map-marker"></i>
+          </div>
+          <div class="profile__contact-info-body">
+            <h5 class="profile__contact-info-heading">Work address</h5>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+<script></script>
+{% endblock %}

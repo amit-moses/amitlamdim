@@ -1,0 +1,751 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    .product-grid{
+    margin-top: 10px;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    border-radius: 15px;
+    border: 1px solid #e7e7e7;
+    overflow: hidden;
+    transition: all 0.4s ease-out;
+}
+.product-grid:hover{ box-shadow: 5px 10px 30px rgba(0, 0, 0, 0.1); }
+.product-grid .product-image{ position: relative; }
+.product-grid .product-image a.image{ display: block; }
+.product-grid .product-image img{
+    width: 100%;
+    height: 180px;
+	object-fit: cover;
+	object-position: 25% 25%; 
+}
+.product-grid .product-discount-label{
+    color: #fff;
+    background: #78a206;
+    font-size: 14px;
+    font-weight: 400;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 5px;
+    position: absolute;
+    top: 12px;
+    left: 12px;
+}
+.product-grid .product-links{
+    width: 145px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    opacity: 0;
+    transform: translateX(-50%) translateY(-50%);
+    position: absolute;
+    top: 65%;
+    left: 50%;
+    transition: all 0.4s ease 0s;
+}
+.product-grid:hover .product-links{
+    opacity: 1;
+    top: 50%;
+}
+.product-grid .product-links li{
+    display: inline-block;
+    margin: 0 2px;
+}
+.product-grid .product-links li a{
+    color: #2c2c2c;
+    background: #fff;
+    font-size: 16px;
+    line-height: 42px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50px;
+    display: block;
+    position: relative;
+    transition: all 0.4s ease-out 0s;
+}
+.product-grid .product-links li a:hover{
+    color: #fff;
+    background: #78a206;
+    box-shadow: 1px 1px 30px 0 rgba(0, 0, 0, 0.2);
+}
+.product-grid .product-links li a:before,
+.product-grid .product-links li a:after{
+    content: attr(data-tip);
+    color: #fff;
+    background-color: #555;
+    font-size: 12px;
+    line-height: 18px;
+    padding: 5px 10px;
+    white-space: nowrap;
+    display: none;
+    transform: translateX(-50%);
+    position: absolute;
+    left: 50%;
+    top: -40px;
+    transition: all 0.3s ease 0s;
+}
+.product-grid .product-links li a:after{
+    content: '';
+    height: 10px;
+    width: 10px;
+    padding: 0;
+    transform: translateX(-50%) rotate(45deg);
+    top: -18px;
+    z-index: -1;
+}
+.product-grid .product-links li a:hover:before,
+.product-grid .product-links li a:hover:after{
+    display: block;
+}
+.product-grid .product-content{
+    padding: 12px 12px 15px;
+    position: relative;
+}
+.product-grid .rating{
+    padding: 0;
+    margin: 0 0 8px;
+    list-style: none;
+}
+.product-grid .rating li{
+    color: #78a206;
+    font-size: 14px;
+}
+.product-grid .rating .far{ color: #808080; }
+.product-grid .title{
+    font-size: 18px;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin: 0 0 15px;
+}
+.product-grid .title a{
+    color: #2c2c2c;
+    transition: all 0.3s ease 0s;
+}
+.product-grid .title a:hover{ color: #78a206; }
+.product-grid .price{
+    color: #78a206;
+    font-size: 17px;
+    font-weight: 600;
+    display: block;
+    transition: all 0.4s ease-in-out;
+}
+.product-grid .price span{
+    color: #999;
+    font-weight: 500;
+    text-decoration: line-through;
+}
+.product-grid:hover .price{ opacity: 0; }
+.product-grid .add-to-cart{
+    color: #fff;
+    background-color: #78a206;
+    font-size: 16px;
+    font-weight: 500;
+    text-transform: uppercase;
+    line-height: 40px;
+    width: 140px;
+    height: 40px;
+    border-radius: 50px;
+    opacity: 0;
+    transform: translateX(-50%);
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transition: all .4s ease-out;
+}
+.product-grid .add-to-cart:hover{ background-color: #2f2f2f; }
+.product-grid:hover .add-to-cart{
+    opacity: 1;
+    bottom: 8px;
+}
+@media screen and (max-width:1200px){
+    .product-grid{ margin: 0 0 30px; }
+}
+.form-radio,
+    .form-group {
+        position: relative;
+        margin-top: 0;
+        margin-bottom: 25px;
+    }
+
+    select,
+    .form-group input,
+    .form-group textarea {
+        resize: none;
+        display: block;
+        background: none;
+        padding: 0.125rem 0.125rem 0.0625rem;
+        font-size: 1rem;
+        border-width: 0;
+        border-color: transparent;
+        line-height: 1.9;
+        width: 100%;
+        color: transparent;
+        -webkit-transition: all 0.28s ease;
+        transition: all 0.28s ease;
+        box-shadow: none;
+        background-color: #1a73e8;
+    }
+
+    select,
+    .form-group input {
+        height: 1.9rem;
+    }
+
+    .form-group .control-label {
+        position: absolute;
+        top: 0.25rem;
+        pointer-events: none;
+        padding-right: 0.125rem;
+        z-index: 1;
+        color: #b3b3b3;
+        font-size: 1rem;
+        font-weight: normal;
+        -webkit-transition: all 0.28s ease;
+        transition: all 0.28s ease;
+    }
+
+    select:focus,
+    .form-group select:focus,
+    .form-group input:focus,
+    .form-group textarea:focus {
+        outline: none;
+    }
+
+    .form-group select,
+    .form-group input:focus,
+    .form-group input:valid,
+    .form-group input.form-file,
+    .form-group input.has-value,
+    .form-group textarea:focus,
+    .form-group textarea:valid,
+    .form-group textarea.form-file,
+    .form-group textarea.has-value {
+        color: #333;
+    }
+
+    .form-group input,
+    .form-group textarea {
+
+        display: block;
+        background: none;
+        padding: 0.125rem 0.125rem 0.0625rem;
+        font-size: 16px;
+        border-width: 0;
+        line-height: 1.9;
+        width: 100%;
+        color: transparent;
+        -webkit-transition: all 0.28s ease;
+        transition: all 0.28s ease;
+        box-shadow: none;
+    }
+
+    .form-group input {
+        height: 1.9rem;
+    }
+
+    .form-group select:focus~.control-label,
+    .form-group input:focus~.control-label,
+    .form-group textarea:focus~.control-label {
+        color: #337ab7;
+    }
+
+    /* Main Focus */
+
+
+    .form-group select~.control-label,
+    .form-group userarea~.control-label,
+    .form-group input:focus~.control-label,
+    .form-group input:valid~.control-label,
+    .form-group input.form-file~.control-label,
+    .form-group input.has-value~.control-label,
+    .form-group textarea.has-value~.control-label {
+        top: -14px !important;
+        background: #fff !important;
+        color: #1a73e8;
+        padding: 0 10px;
+        border-radius: 5px
+    }
+
+    .form-group textarea:focus~.control-label,
+    .form-group input:valid~.control-label {
+        top: -14px !important;
+        background: #fff !important;
+        color: #1a73e8;
+        padding: 0 10px;
+        border-radius: 5px
+    }
+
+
+
+    /* Main Focus */
+    .form-group .control-label {
+
+        position: absolute;
+        top: 10px;
+        pointer-events: none;
+        padding-right: 0.125rem;
+        z-index: 1;
+        color: #b3b3b3;
+        font-size: 14px;
+        font-weight: normal;
+        -webkit-transition: all 0.28s ease;
+        transition: all 0.28s ease;
+        right: 15px;
+
+    }
+
+    .form-group input {
+        height: 40px;
+        border: 1px solid #ccc;
+        padding: 13px 15px;
+        border-radius: 5px;
+    }
+    .form-group input:disabled {
+        background-color: rgb(241, 241, 241);
+        opacity: 1;
+    }
+
+    .form-group textarea {
+
+        border: 1px solid #ccc;
+        padding: 13px 15px;
+        height: 80px;
+        border-radius: 5px;
+    }
+
+    .form-control:focus {
+        color: #495057;
+        background-color: #fff;
+        border-color: #1a73e8 !important;
+        outline: 0;
+        box-shadow: none;
+    }
+
+    .form-group input:focus {
+        height: 40px;
+        border: 1px solid #1a73e8;
+        padding: 13px 15px;
+    }
+
+
+    .New_form_sec {
+        padding: 30px 40px 36px;
+        border: 1px solid #dadce0;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .New_form_sec2 {
+        border: none;
+        padding: 30px 40px 36px;
+    }
+
+    .New_form_sec .btn {
+        border-radius: 5px;
+        min-width: 25%;
+        letter-spacing: 0.8px;
+        font-weight: bold;
+        background: #1a73e8;
+        color: #fff
+    }
+
+    .New_form_sec .contact-page-title22 {
+        text-align: center
+    }
+
+    .New_form_sec .contact-page-title22 {
+        text-align: center;
+        position: relative !important;
+        background: #fff;
+        text-align: right;
+    }
+
+
+    form-group textarea:valid~.control-label,
+    .form-group textarea.form-file~.control-label,
+    .form-group textarea.has-value~.control-label {
+        font-size: 0.8rem;
+        color: gray;
+        top: -1rem;
+        right: 0;
+    }
+    .loader{
+    width: 70px;
+    height: 70px;
+    margin: 40px auto;
+}
+.loader p{
+    font-size: 16px;
+    color: #777;
+}
+.loader .loader-inner{
+    display: inline-block;
+    width: 15px;
+    border-radius: 15px;
+    background: #7ea4c7;
+}
+.loader .loader-inner:nth-last-child(1){
+    -webkit-animation: loading 1.5s 1s infinite;
+    animation: loading 1.5s 1s infinite;
+}
+.loader .loader-inner:nth-last-child(2){
+    -webkit-animation: loading 1.5s .5s infinite;
+    animation: loading 1.5s .5s infinite;
+}
+.loader .loader-inner:nth-last-child(3){
+    -webkit-animation: loading 1.5s 0s infinite;
+    animation: loading 1.5s 0s infinite;
+}
+@-webkit-keyframes loading{
+    0%{
+        height: 15px;
+    }
+    50%{
+        height: 35px;
+    }
+    100%{
+        height: 15px;
+    }
+}
+@keyframes loading{
+    0%{
+        height: 15px;
+    }
+    50%{
+        height: 35px;
+    }
+    100%{
+        height: 15px;
+    }
+}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+
+<!-- Button trigger modal -->
+<div class="col-sm-12">
+    <div class="form-group">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">חיפוש &nbsp;&nbsp;<i class="glyphicon glyphicon-search"></i>
+        </button>
+        
+        <div class="btn-group sort-btn">
+            <button class="btn btn-primary" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">מיון לפי</button>
+            <button onclick="change_dir()" class="btn btn-primary dropdown-toggle" data-sort="none"><i class="glyphicon glyphicon-triangle-{% if sort_val|divisibleby:2 %}bottom{% else %}top{%endif%}"></i></button>
+            <ul class="dropdown-menu">
+                <li><a href="#" onclick="sort_dir({% if sort_val|divisibleby:2 %}0{% else %}1{%endif%})" data-type="alpha">רלוונטי</a></li>
+                <li><a href="#" onclick="sort_dir({% if sort_val|divisibleby:2 %}6{% else %}7{%endif%})" data-type="alpha">תאריך כניסה</a></li>
+                <li><a href="#" onclick="sort_dir({% if sort_val|divisibleby:2 %}2{% else %}3{%endif%})" data-type="alpha">מחיר שכירות</a></li>
+                <li><a href="#" onclick="sort_dir({% if sort_val|divisibleby:2 %}4{% else %}5{%endif%})" data-type="alpha">מספר שותפים</a></li>
+                <li><a href="#" onclick="sort_dir({% if sort_val|divisibleby:2 %}8{% else %}9{%endif%})" data-type="alpha">קומה</a></li>
+            </ul>
+        </div>
+
+        <a href="{% url 'map' %}" type="button" class="btn btn-primary">חיפוש במפה&nbsp;&nbsp;<i class="glyphicon glyphicon-map-marker"></i></a>
+</div>
+<!-- Modal -->
+<div dir="rtl" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form id="search_form" class="modal-body" method="GET" action="{% url 'index' %}">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-field form-group" id="street-selection">
+                        <input autocomplete="off" {% if apr %}value="{{apr.street}}" {% endif %} class="inputof" type="text"
+                            list="streets-data" id="street_choice" name="street_choice" {% if not apr.city %} disabled {% endif %} />
+                        <datalist id="streets-data">
+                            <option value="">
+                        </datalist>
+                        <label for="input" class="control-label">רחוב</label>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-field form-group" id="city-selection">
+                        <input autocomplete="off" {% if apr %}value="{{apr.city}}" {% endif %} class="inputof" onchange="make_city()" type="text"
+                            list="cities-data" id="city_choice" name="city_choice"  />
+                        <datalist id="cities-data">
+                            <option value="">טוען רשימת ערים...</option>
+                        </datalist>
+                        <label for="input" class="control-label">עיר</label>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <input {% if apr %}value="{{apr.floor}}" {% endif %} class="inputof" min="0" max="100"
+                            name="floor" type="number" >
+                        <label for="input" class="control-label">קומה</label>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <input {% if apr %}value="{{apr.rent_price_to}}" {% endif %} min="0" name="rent_price_to" type="number"
+                            >
+                        <label for="input" class="control-label">עד תקציב</label>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <input {% if apr %}value="{{apr.rent_price_from}}" {% endif %} min="0" name="rent_price_from" type="number">
+                        <label for="input" class="control-label">מתקציב</label>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <select style="height: 40px;" class="form-control" name="kosher"
+                            aria-label="Default select example">
+                            <option id="kosher_4" value="4">הכל</option>
+                            <option id="kosher_0" value="0">אין כשרות, אין שבת</option>
+                            <option id="kosher_1" value="1">יש כשרות, שומרי שבת</option>
+                            <option id="kosher_2" value="2">יש כשרות, אין שבת</option>
+                            <option id="kosher_3" value="3">אין כשרות, שומרי שבת</option>
+                        </select>
+                        <label for="input" class="control-label">כשרות ושבת</label>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <input {% if apr %}value="{{apr.partners}}" {% endif %} name="partners" min="0" type="number" >
+                        <label for="input" class="control-label">מספר שותפים בדירה</label>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <input {% if apr %}value="{{apr.entry_month}}" {% endif %} name="entry_month" type="month" >
+                        <label for="input"  class="control-label">חודש כניסה</label>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <select style="height: 40px;" class="form-control" name="gender"
+                            aria-label="Default select example">
+                            <option id="check_3" value="3">הכל</option>
+                            <option id="check_0" value="0">בן או בת</option>
+                            <option id="check_1" value="1">בנים בלבד</option>
+                            <option id="check_2" value="2">בנות בלבד</option>
+                        </select>
+                        <label for="input" class="control-label">מין השותפ.ה</label>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <select style="height: 40px;" class="form-control" name="type"
+                            aria-label="Default select example">
+                            <option id="type_3" value="3">הכל</option>
+                            <option id="type_0" value="0">שותף קבוע</option>
+                            <option id="type_1" value="1">סאבלט</option>
+                        </select>
+                        <label for="input" class="control-label">סוג</label>
+                    </div>
+                </div>
+                <div class="col-sm-9">
+                    <div class="form-group">
+                        <input {% if apr %}value="{{apr.search_key}}" {% endif %} maxlength="200" class="inputof"
+                            name="search_key" type="text" >
+                        <label for="input" class="control-label">חיפוש חופשי</label>
+                    </div>
+                </div>
+                <input style="display: none;" value="{% if sort_val %}{{sort_val}}{% else %}0{%endif%}" id="sort_val" name="sort_val" type="number">
+                <div class="col-sm-12">
+                    <div class="">
+                        <input id="search_btn" class="btn btn-primary col-sm-12" type="submit" value="חיפוש">
+                    </div>
+                </div>
+
+            </div>
+    </div>
+    </form>
+      </div>
+    </div>
+  </div>
+<div id="containerall" class="row col-md-12"> </div>
+<div id="loader" class="loader container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="loader">
+                <div class="loader-inner"></div>
+                <div class="loader-inner"></div>
+                <div class="loader-inner"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="display: none;" id="nofound" class="loader">
+    <div>
+        <img width="100px" height="auto" src="https://firebasestorage.googleapis.com/v0/b/diro-ac902.appspot.com/o/no-results.png?alt=media&token=bbeb0188-282e-434f-a991-761a02870c16">
+        <p>אין תוצאות לחיפוש</p>
+    </div>
+</div>
+<script>
+    function make_city(){
+            if (document.getElementById('city_choice').value){document.getElementById('street_choice').disabled = false;}
+            else{document.getElementById('street_choice').disabled = true;}
+        }
+
+   function isElementInViewport(el) {
+        var rect = el.getBoundingClientRect();
+        return (rect.top >= 0 &&rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)
+  );
+}
+isActive = true
+    drk = document.getElementById(`idcat_0`);
+    if (drk) drk.classList.add("active")
+    mypage = 1
+    function loadNext12(){
+        axios.get('{% url "search" %}', { 
+            params: { 
+                updater: '{{my_date}}',
+                page: mypage,
+                {% if apr.city %} city_choice: '{{apr.city}}', {% endif %}
+                {% if apr.street %} street_choice: '{{apr.street}}', {% endif %}
+                {% if apr.rent_price_from %} rent_price_from: '{{apr.rent_price_from}}', {% endif %}
+                {% if apr.rent_price_to %} rent_price_to: '{{apr.rent_price_to}}', {% endif %}
+                {% if apr.gender %} gender: '{{apr.gender}}', {% endif %}
+                {% if apr.kosher %} kosher: '{{apr.kosher}}', {% endif %}
+                {% if apr.search_key %} search_key: '{{apr.search_key}}', {% endif %}
+                {% if apr.entry_month %} entry_month: '{{apr.entry_month}}', {% endif %}
+                {% if apr.floor %} floor: '{{apr.floor}}', {% endif %}
+                {% if apr.partners %} partners: '{{apr.partners}}', {% endif %}
+                {% if apr.type %} type: '{{apr.type}}', {% endif %}
+                sort_val: {% if sort_val %}'{{sort_val}}'{% else %}0{% endif %}
+            }}).then(res => {
+            if(res.data.length){
+                const resultHTML =''
+                for (let i = 0; i < res.data.length; i++) {
+                   add_to = `<div class="col-md-3 col-sm-6"> <div class="product-grid"> <div class="product-image"> <a href="{% url 'single_page_view' %}${res.data[i].id}" class="image"> <img class="pic-1" src="${res.data[i].image}"> </a> <span class="product-discount-label">${res.data[i].city}</span> </div> <div class="product-content"> <h3 dir="rtl" class="title"><a href="{% url 'single_page_view' %}${res.data[i].id}">${res.data[i].title}</a></h3> <p dir="rtl" class="price"> ${res.data[i].details}</p> <a class="add-to-cart" href="{% url 'single_page_view' %}${res.data[i].id}">פרטים</a> </div> </div> </div>`
+                   containerall.innerHTML += add_to;
+                }
+                mypage += 1;                   
+                isActive = true;
+            }
+            if(res.data.length<12){ document.getElementById("loader").style.display = "none"; }
+            if(res.data.length === 0 && page === 1){ document.getElementById("nofound").style.display = ""; }
+            })
+                
+            
+            
+
+    }
+    loadNext12()
+    document.onscroll = function(){if(isActive && isElementInViewport(loader)){
+        isActive = false
+        loadNext12()
+
+    }};
+
+    const api_url = "https://data.gov.il/api/3/action/datastore_search";
+        // Cities endpoint
+        const cities_resource_id = "5c78e9fa-c2e2-4771-93ff-7f400a12f7ba";
+        // Streets endpoint
+        const streets_resource_id = "a7296d1a-f8c9-4b70-96c2-6ebb4352f8e3";
+        // Field names
+        const city_name_key = "שם_ישוב";
+        const street_name_key = "שם_רחוב";
+        // dataset ids
+        const cities_data_id = "cities-data";
+        const streets_data_id = "streets-data";
+        // input elements
+        const cities_input = document.getElementById("city_choice");
+        const streets_input = document.getElementById("street_choice");
+
+        /**
+         * Get data from gov data API
+         * Uses Axios just because it was easy
+         */
+        const getData = (resource_id, q = "", limit = "100") => {
+            //console.log("sending", resource_id, query);
+            return axios.get(api_url, {
+                params: { resource_id, q, limit },
+                responseType: "json"
+            });
+        };
+
+        /**
+         * Parse records from data into 'option' elements,
+         * use data from key 'field_name' as the option value
+         */
+        const parseResponse = (records = [], field_name) => {
+            const parsed =
+                records
+                    .map((record) => `<option value="${record[field_name].trim()}">`)
+                    .join("\n") || "";
+            //console.log("parsed", field_name, parsed);
+            return Promise.resolve(parsed);
+        };
+
+        /**
+         * Fetch data, parse, and populate Datalist
+         */
+        const populateDataList = (id, resource_id, field_name, query, limit) => {
+            const datalist_element = document.getElementById(id);
+            if (!datalist_element) {
+                console.log(
+                    "Datalist with id",
+                    id,
+                    "doesn't exist in the document, aborting"
+                );
+                return;
+            }
+            getData(resource_id, query, limit)
+                .then((response) =>
+                    parseResponse(response?.data?.result?.records, field_name)
+                )
+                .then((html) => (datalist_element.innerHTML = html))
+                .catch((error) => {
+                    console.log("Couldn't get list for", id, "query:", query, error);
+                });
+        };
+
+        // ---- APP ----
+
+        /**
+         * Populate cities.
+         * There are about 1300 cities in Israel, and the API upper limit is 32000
+         * so we can safely populate the list only once.
+         */
+        populateDataList(
+            cities_data_id,
+            cities_resource_id,
+            city_name_key,
+            undefined,
+            32000
+        );
+
+        /**
+         * Populate streets
+         * Update the streets list on every city name change
+         * (assuming there aren't more than 32,000 streets in any city)
+         */
+        cities_input.addEventListener("change", (event) => {
+            populateDataList(
+                streets_data_id,
+                streets_resource_id,
+                street_name_key,
+                {
+                    שם_ישוב: cities_input.value
+                },
+                32000
+            );
+        });
+        document.getElementById("check_{{apr.gender}}").selected = "true"; 
+        document.getElementById("kosher_{{apr.kosher}}").selected = "true"; 
+        document.getElementById("type_{{apr.type}}").selected = "true";
+
+        function sort_dir(sort_to){
+            document.getElementById('sort_val').value = sort_to;
+            document.getElementById('search_form').submit();
+        }
+        function change_dir(){
+            x = parseInt(document.getElementById('sort_val').value);
+            if(x % 2 ===0 ){sort_dir(x+1);}
+            else{sort_dir(x-1);}
+
+        }
+        
+</script>
+{% endblock %}

@@ -1,0 +1,569 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap");
+
+    .card {
+        background-color: #fff;
+        padding: 14px;
+        border: none
+    }
+
+    .demo {
+        width: 100%
+    }
+
+    .demo ul {
+        list-style: none outside none;
+        padding-left: 0;
+        margin-bottom: 0
+    }
+
+    .demo li {
+        display: block;
+        float: left;
+        margin-right: 6px;
+        cursor: pointer
+    }
+
+    li img {
+        display: block;
+        height: auto;
+        width: 100%
+    }
+
+    .stars i {
+        color: #f6d151
+    }
+
+    .stars span {
+        font-size: 13px
+    }
+
+    hr {
+        color: #d4d4d4
+    }
+
+    .badge {
+        padding: 5px !important;
+        padding-bottom: 6px !important
+    }
+
+    .badge i {
+        font-size: 10px
+    }
+
+    .profile-image {
+        width: 35px
+    }
+
+    .comment-ratings i {
+        font-size: 13px
+    }
+
+    .username {
+        font-size: 12px
+    }
+
+    .comment-profile {
+        line-height: 17px
+    }
+
+    .date span {
+        font-size: 12px
+    }
+
+    .p-ratings i {
+        color: #f6d151;
+        font-size: 12px
+    }
+
+    .btn-long {
+        padding-left: 35px;
+        padding-right: 35px
+    }
+
+    .buttons {
+        margin-top: 15px
+    }
+
+    .buttons .btn {
+        height: 46px
+    }
+
+    .buttons .cart {
+        border-color: #7ea4c7;
+        color: #7ea4c7
+    }
+
+    .buttons .cart:hover {
+        background-color: #9bc0e2 !important;
+        color: #fff
+    }
+
+    .buttons .buy {
+        color: #fff;
+        background-color: #7ea4c7;
+        border-color: #7ea4c7
+    }
+
+    .buttons .buy:focus,
+    .buy:active {
+        color: #fff;
+        background-color: #9bc0e2;
+        border-color: #9bc0e2;
+        box-shadow: none
+    }
+
+    .buttons .buy:hover {
+        color: #fff;
+        background-color: #9bc0e2;
+        border-color: #9bc0e2
+    }
+
+    .buttons .wishlist {
+        background-color: #fff;
+        border-color: #7ea4c7
+    }
+
+    .buttons .wishlist:hover {
+        background-color: #9bc0e2;
+        border-color: #9bc0e2;
+        color: #fff
+    }
+
+    .buttons .wishlist:hover i {
+        color: #fff
+    }
+
+    .buttons .wishlist i {
+        color: #7ea4c7
+    }
+
+    .comment-ratings i {
+        color: #f6d151
+    }
+
+    .followers {
+        font-size: 9px;
+        color: #d6d4d4
+    }
+
+    .store-image {
+        width: 42px
+    }
+
+    .dot {
+        height: 10px;
+        width: 10px;
+        background-color: #bbb;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 5px
+    }
+
+    .bullet-text {
+        font-size: 12px
+    }
+
+    label.radio {
+        cursor: pointer
+    }
+
+    label.radio input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        visibility: hidden;
+        pointer-events: none
+    }
+
+    label.radio span {
+        border: 2px solid #8f37aa;
+        display: inline-block;
+        color: #8f37aa;
+        border-radius: 50%;
+        width: 25px;
+        height: 25px;
+        text-transform: uppercase;
+        transition: 0.5s all
+    }
+
+    label.radio .red {
+        background-color: red;
+        border-color: red
+    }
+
+    label.radio .blue {
+        background-color: blue;
+        border-color: blue
+    }
+
+    label.radio .green {
+        background-color: green;
+        border-color: green
+    }
+
+    label.radio .orange {
+        background-color: orange;
+        border-color: orange
+    }
+
+    label.radio input:checked+span {
+        color: #fff;
+        position: relative
+    }
+
+    label.radio input:checked+span::before {
+        opacity: 1;
+        content: '\2713';
+        position: absolute;
+        font-size: 13px;
+        font-weight: bold;
+        left: 4px
+    }
+
+    .card-body {
+        padding: 0.3rem 0.3rem 0.2rem
+    }
+    .form-radio,
+    .form-group {
+        position: relative;
+        margin-top: 0;
+        margin-bottom: 25px;
+    }
+
+    select,
+    .form-group input,
+    .form-group textarea {
+        resize: none;
+        display: block;
+        background: none;
+        padding: 0.125rem 0.125rem 0.0625rem;
+        font-size: 1rem;
+        border-width: 0;
+        border-color: transparent;
+        line-height: 1.9;
+        width: 100%;
+        color: transparent;
+        -webkit-transition: all 0.28s ease;
+        transition: all 0.28s ease;
+        box-shadow: none;
+        background-color: #1a73e8;
+    }
+
+    select,
+    .form-group input {
+        height: 1.9rem;
+    }
+
+    .form-group .control-label {
+        position: absolute;
+        top: 0.25rem;
+        pointer-events: none;
+        padding-right: 0.125rem;
+        z-index: 1;
+        color: #b3b3b3;
+        font-size: 1rem;
+        font-weight: normal;
+        -webkit-transition: all 0.28s ease;
+        transition: all 0.28s ease;
+    }
+
+    select:focus,
+    .form-group select:focus,
+    .form-group input:focus,
+    .form-group textarea:focus {
+        outline: none;
+    }
+
+    .form-group select,
+    .form-group input:focus,
+    .form-group input:valid,
+    .form-group input.form-file,
+    .form-group input.has-value,
+    .form-group textarea:focus,
+    .form-group textarea:valid,
+    .form-group textarea.form-file,
+    .form-group textarea.has-value {
+        color: #333;
+    }
+
+    .form-group input,
+    .form-group textarea {
+
+        display: block;
+        background: none;
+        padding: 0.125rem 0.125rem 0.0625rem;
+        font-size: 16px;
+        border-width: 0;
+        line-height: 1.9;
+        width: 100%;
+        color: transparent;
+        -webkit-transition: all 0.28s ease;
+        transition: all 0.28s ease;
+        box-shadow: none;
+    }
+
+    .form-group input {
+        height: 1.9rem;
+    }
+
+    .form-group select:focus~.control-label,
+    .form-group input:focus~.control-label,
+    .form-group textarea:focus~.control-label {
+        color: #337ab7;
+    }
+
+    /* Main Focus */
+
+
+    .form-group select~.control-label,
+    .form-group userarea~.control-label,
+    .form-group input:focus~.control-label,
+    .form-group input:valid~.control-label,
+    .form-group input.form-file~.control-label,
+    .form-group input.has-value~.control-label,
+    .form-group textarea.has-value~.control-label {
+        top: -14px !important;
+        background: #fff !important;
+        color: #1a73e8;
+        padding: 0 10px;
+        border-radius: 5px
+    }
+
+    .form-group textarea:focus~.control-label,
+    .form-group input:valid~.control-label {
+        top: -14px !important;
+        background: #fff !important;
+        color: #1a73e8;
+        padding: 0 10px;
+        border-radius: 5px
+    }
+
+
+
+    /* Main Focus */
+    .form-group .control-label {
+
+        position: absolute;
+        top: 10px;
+        pointer-events: none;
+        padding-right: 0.125rem;
+        z-index: 1;
+        color: #b3b3b3;
+        font-size: 14px;
+        font-weight: normal;
+        -webkit-transition: all 0.28s ease;
+        transition: all 0.28s ease;
+        right: 15px;
+
+    }
+
+    .form-group input {
+        height: 40px;
+        border: 1px solid #ccc;
+        padding: 13px 15px;
+        border-radius: 5px;
+    }
+    .form-group input:disabled {
+        background-color: rgb(241, 241, 241);
+        opacity: 1;
+    }
+
+    .form-group textarea {
+
+        border: 1px solid #ccc;
+        padding: 13px 15px;
+        height: 80px;
+        border-radius: 5px;
+    }
+
+    .form-control:focus {
+        color: #495057;
+        background-color: #fff;
+        border-color: #1a73e8 !important;
+        outline: 0;
+        box-shadow: none;
+    }
+
+    .form-group input:focus {
+        height: 40px;
+        border: 1px solid #1a73e8;
+        padding: 13px 15px;
+    }
+
+
+    .New_form_sec {
+        padding: 30px 40px 36px;
+        border: 1px solid #dadce0;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .New_form_sec2 {
+        border: none;
+        padding: 30px 40px 36px;
+    }
+
+    .New_form_sec .btn {
+        border-radius: 5px;
+        min-width: 25%;
+        letter-spacing: 0.8px;
+        font-weight: bold;
+        background: #1a73e8;
+        color: #fff
+    }
+
+    .New_form_sec .contact-page-title22 {
+        text-align: center
+    }
+
+    .New_form_sec .contact-page-title22 {
+        text-align: center;
+        position: relative !important;
+        background: #fff;
+        text-align: right;
+    }
+
+
+    form-group textarea:valid~.control-label,
+    .form-group textarea.form-file~.control-label,
+    .form-group textarea.has-value~.control-label {
+        font-size: 0.8rem;
+        color: gray;
+        top: -1rem;
+        right: 0;
+    }
+</style>
+<link rel='stylesheet' href='https://sachinchoolur.github.io/lightslider/dist/css/lightslider.css'>
+<div class="container-fluid mt-2 mb-3">
+    {% if errmes == 2 %}
+    <div class="alert alert-success alert-dismissible">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        ההודעה נשלחה בהצלחה
+      </div>
+    {% endif %}
+    <div class="row no-gutters">
+        <div class="col-md-5 pr-2">
+            <div class="card">
+                <div class="demo">
+                    <ul id="lightSlider">
+                        {% if apr.imagedata_set.all %}
+                        {% for urlimg in apr.imagedata_set.all %}
+                        <li data-thumb="{{urlimg}}"> <img src="{{urlimg}}" /></li>
+                        {% endfor %}
+                        {% else %}
+                        <li data-thumb=""> <img src="https://firebasestorage.googleapis.com/v0/b/diro-ac902.appspot.com/o/no-image-icon-23500.jpg?alt=media&token=a1d5a015-bf2e-489d-988a-6e143a76b8be" /></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div dir="rtl" class="col-md-7">
+            <div class="card">
+                <divclass="about"> <h3 class="font-weight-bold">{{apr.title}}</h3> </div>
+                <div class="product-description">
+                    <div class="d-flex flex-row align-items-center"> <i class="fa fa-calendar-check-o"></i> <span
+                            class="ml-1">{{apr.details}}</span> </div>
+                </div>
+
+                <hr>
+                <div class="product-description">
+                    {% if apr.city %}<div class="d-flex flex-row align-items-center"> <i class="fa fa-calendar-check-o"></i> <span class="ml-1">עיר: {{apr.city}}</span> </div>{% endif %}
+                    {% if apr.street %}<div class="d-flex flex-row align-items-center"> <i class="fa fa-calendar-check-o"></i> <span class="ml-1">רחוב: {{apr.street}}</span> </div>{% endif %}
+                    {% if apr.type == 0%}<div class="d-flex flex-row align-items-center"> <i class="fa fa-calendar-check-o"></i> <span class="ml-1">סוג: שותף קבוע</span> </div>{% endif %}
+                    {% if apr.type == 1%}<div class="d-flex flex-row align-items-center"> <i class="fa fa-calendar-check-o"></i> <span class="ml-1">סוג: סאבלט</span> </div>{% endif %}
+                    {% if apr.rent_price %}<div class="d-flex flex-row align-items-center"> <i class="fa fa-calendar-check-o"></i> <span class="ml-1">שכר דירה חודשי: {{apr.rent_price}}</span> </div>{% endif %}
+                    {% if apr.partners %}<div class="d-flex flex-row align-items-center"> <i class="fa fa-calendar-check-o"></i> <span class="ml-1">מספר שותפים: {{apr.partners}}</span> </div>{% endif %}
+                    {% if apr.floor %}<div class="d-flex flex-row align-items-center"> <i class="fa fa-calendar-check-o"></i> <span class="ml-1">קומה: {{apr.floor}}</span> </div>{% endif %}
+                    {% if apr.entry_date %}<div class="d-flex flex-row align-items-center"> <i class="fa fa-calendar-check-o"></i> <span class="ml-1">תאריך כניסה: {{apr.get_date_format}}</span> </div>{% endif %}
+                    {% if apr.gender == 1%}<div class="d-flex flex-row align-items-center"> <i class="fa fa-calendar-check-o"></i> <span class="ml-1">מיועד ל: בנים בלבד</span> </div>{% endif %}
+                    {% if apr.gender == 2%}<div class="d-flex flex-row align-items-center"> <i class="fa fa-calendar-check-o"></i> <span class="ml-1">מיועד ל: בנות בלבד</span> </div>{% endif %}
+                    {% if apr.gender == 0%}<div class="d-flex flex-row align-items-center"> <i class="fa fa-calendar-check-o"></i> <span class="ml-1">מיועד ל: בנים ובנות</span> </div>{% endif %}
+                    {% if apr.kosher == 0%}<div class="d-flex flex-row align-items-center"> <i class="fa fa-calendar-check-o"></i> <span class="ml-1">כשרות: אין כשרות, אין שבת</span> </div>{% endif %}
+                    {% if apr.kosher == 1%}<div class="d-flex flex-row align-items-center"> <i class="fa fa-calendar-check-o"></i> <span class="ml-1">כשרות: יש כשרות, שומרי שבת</span> </div>{% endif %}
+                    {% if apr.kosher == 2%}<div class="d-flex flex-row align-items-center"> <i class="fa fa-calendar-check-o"></i> <span class="ml-1">כשרות: יש כשרות, אין שבת</span> </div>{% endif %}
+                    {% if apr.kosher == 3%}<div class="d-flex flex-row align-items-center"> <i class="fa fa-calendar-check-o"></i> <span class="ml-1">כשרות: אין כשרות, שומרי שבת</span> </div>{% endif %}
+                    
+                </div>
+                {% if apr.agree_mail %} <div class="buttons"> <button id="btn_open" class="btn btn-warning btn-long buy" data-toggle="modal" data-target="#exampleModal">צור קשר</button></div>{% endif %}
+        </div>
+    </div>
+</div>
+{% if apr.agree_mail %}
+<!-- Modal -->
+<div dir="rtl" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form class="modal-body" method="POST" action="{% url 'send_email_to_publisher' %}{{apr.id}}">
+            {% if errmes == 1 %}
+    <div class="alert alert-danger alert-dismissible">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>שגיאה</strong> ההודעה לא נשלחה, נא לנסות בשנית
+      </div>
+    {% endif %}
+    {% if errmes == 3 %}
+    <div class="alert alert-danger alert-dismissible">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>שגיאה</strong> נא למלא את תיבת האימות
+      </div>
+    {% endif %}
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <input {% if errmes == 3 %}value="{{my_name_err}}"{% endif %}  maxlength="200" class="inputof" name="mes_from" type="text" required >
+                        <label for="input" class="control-label">שם</label>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <input {% if errmes == 3 %}value="{{my_con_err}}"{% endif %} maxlength="200" class="inputof" required
+                            name="mes_contact" type="text" >
+                        <label for="input" class="control-label">טלפון או מייל ליצירת קשר</label>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <textarea maxlength="499" name="mes_content" required>{% if errmes == 3 %}{{my_mes_err}}{% endif %}</textarea>
+                        
+                        <label for="textarea" class="control-label">תוכן ההודעה</label>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div>
+                        {{ form.as_p }}
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="">
+                        <input class="btn btn-primary col-sm-12" type="submit" value="שלח">
+                    </div>
+                </div>
+
+            </div>
+    </div>
+    </form>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js'></script>
+<script src='https://sachinchoolur.github.io/lightslider/dist/js/lightslider.js'></script>
+<script> 
+$('#lightSlider').lightSlider({ gallery: true, item: 1, loop: true, slideMargin: 0, thumbItem: 9 });
+</script>
+
+<script>
+    {% if errmes == 3 or errmes == 1 %}document.getElementById('btn_open').click(){% endif %}
+    drk = document.getElementById(`idcat_0`)
+    if (drk) drk.classList.add("active")
+</script>
+{% endblock %}
