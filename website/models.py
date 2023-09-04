@@ -29,6 +29,7 @@ class Userdata(models.Model):
     first_name = models.CharField(null=True, max_length=100, default=None)
     last_name = models.CharField(null=True, max_length=100, default=None)
     github_link = models.CharField(null=True, max_length=300, default=None)
+    linkedin_link = models.CharField(null=True, max_length=300, default=None)
     website = models.CharField(null=True, max_length=300, default=None)
     profile_pic = models.CharField(null=True, max_length=350, default=None)
     background = models.CharField(null=True, max_length=300, default=None)
@@ -37,6 +38,8 @@ class Userdata(models.Model):
     update = models.DateTimeField(default=timezone.now)
     salary_per_hour = models.IntegerField(default=0)
     details = models.CharField(null=True, max_length=1500, default=None)
+    phone = models.CharField(null=True, max_length=20, default=None)
+    city = models.CharField(null=True, max_length=20, default=None)
 
     def is_valid(self):
         return self.first_name and self.last_name and self.userexpertise_set
@@ -117,4 +120,16 @@ class Resume(models.Model):
     text = models.CharField(null=False, max_length=500)
     start_year = models.IntegerField(null=True)
     end_year = models.IntegerField(null=True)
+
+    def get_years(self):
+        if self.start_year == self.end_year:
+            return self.start_year
+        return f'{self.end_year} - {self.start_year}'
+
+class Portfolio(models.Model):
+    userdata = models.ForeignKey(Userdata, on_delete=models.CASCADE)
+    pic = models.CharField(null=True, max_length=300, default=None)
+    title = models.CharField(null=True, max_length=30, default=None)
+    link = models.CharField(null=True, max_length=300, default=None)
+
 

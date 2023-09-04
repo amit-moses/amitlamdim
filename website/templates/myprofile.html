@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
+
     .panel {
   box-shadow: none;
 }
@@ -125,6 +127,7 @@
     display: block;
     margin: 5px 0 10px;
   }
+
 }
 .profile-comments__content {
   color: #999999;
@@ -171,7 +174,8 @@
   clear: both;
 }
 .profile__contact-info-icon {
-  float: left;
+  margin: 10px;
+  float: right;
   font-size: 18px;
   color: #999999;
 }
@@ -194,6 +198,47 @@
   font-weight: 500;
   color: #999999;
 }
+.btn-social{position:relative;padding-left:44px;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.btn-social :first-child{position:absolute;left:0;top:0;bottom:0;width:32px;line-height:34px;font-size:1.6em;text-align:center;border-right:1px solid rgba(0,0,0,0.2)}
+.btn-social.btn-lg{padding-left:61px}.btn-social.btn-lg :first-child{line-height:45px;width:45px;font-size:1.8em}
+.btn-social.btn-sm{padding-left:38px}.btn-social.btn-sm :first-child{line-height:28px;width:28px;font-size:1.4em}
+.btn-social.btn-xs{padding-left:30px}.btn-social.btn-xs :first-child{line-height:20px;width:20px;font-size:1.2em}
+.btn-social-icon{position:relative;padding-left:44px;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;height:34px;width:34px;padding:0}.btn-social-icon :first-child{position:absolute;left:0;top:0;bottom:0;width:32px;line-height:34px;font-size:1.6em;text-align:center;border-right:1px solid rgba(0,0,0,0.2)}
+.btn-social-icon.btn-lg{padding-left:61px}.btn-social-icon.btn-lg :first-child{line-height:45px;width:45px;font-size:1.8em}
+.btn-social-icon.btn-sm{padding-left:38px}.btn-social-icon.btn-sm :first-child{line-height:28px;width:28px;font-size:1.4em}
+.btn-social-icon.btn-xs{padding-left:30px}.btn-social-icon.btn-xs :first-child{line-height:20px;width:20px;font-size:1.2em}
+.btn-social-icon :first-child{border:none;text-align:center;width:100% !important}
+.btn-social-icon.btn-lg{height:45px;width:45px;padding-left:0;padding-right:0}
+.btn-social-icon.btn-sm{height:30px;width:30px;padding-left:0;padding-right:0}
+.btn-social-icon.btn-xs{height:22px;width:22px;padding-left:0;padding-right:0}
+.btn-github{color:#fff;background-color:#444;border-color:rgba(0,0,0,0.2)}.btn-github:hover,.btn-github:focus,.btn-github:active,.btn-github.active,.open .dropdown-toggle.btn-github{color:#fff;background-color:#303030;border-color:rgba(0,0,0,0.2)}
+.btn-github:active,.btn-github.active,.open .dropdown-toggle.btn-github{background-image:none}
+.btn-github.disabled,.btn-github[disabled],fieldset[disabled] .btn-github,.btn-github.disabled:hover,.btn-github[disabled]:hover,fieldset[disabled] .btn-github:hover,.btn-github.disabled:focus,.btn-github[disabled]:focus,fieldset[disabled] .btn-github:focus,.btn-github.disabled:active,.btn-github[disabled]:active,fieldset[disabled] .btn-github:active,.btn-github.disabled.active,.btn-github[disabled].active,fieldset[disabled] .btn-github.active{background-color:#444;border-color:rgba(0,0,0,0.2)}
+.btn-linkedin{color:#fff;background-color:#007bb6;border-color:rgba(0,0,0,0.2)}.btn-linkedin:hover,.btn-linkedin:focus,.btn-linkedin:active,.btn-linkedin.active,.open .dropdown-toggle.btn-linkedin{color:#fff;background-color:#005f8d;border-color:rgba(0,0,0,0.2)}
+.btn-linkedin:active,.btn-linkedin.active,.open .dropdown-toggle.btn-linkedin{background-image:none}
+.btn-linkedin.disabled,.btn-linkedin[disabled],fieldset[disabled] .btn-linkedin,.btn-linkedin.disabled:hover,.btn-linkedin[disabled]:hover,fieldset[disabled] .btn-linkedin:hover,.btn-linkedin.disabled:focus,.btn-linkedin[disabled]:focus,fieldset[disabled] .btn-linkedin:focus,.btn-linkedin.disabled:active,.btn-linkedin[disabled]:active,fieldset[disabled] .btn-linkedin:active,.btn-linkedin.disabled.active,.btn-linkedin[disabled].active,fieldset[disabled] .btn-linkedin.active{background-color:#007bb6;border-color:rgba(0,0,0,0.2)}
+.image-fill{
+  width: 100%;
+  display: block;
+  margin: 0 auto;
+  position: relative;
+}
+.image-fill img{
+  display: block;
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+	object-position: 25% 25%; 
+}
+.conti{
+  width: 75%; 
+  margin: 0 auto;
+}
+@media (max-width: 767px) {
+  .conti{
+    width: 100%;
+  }
+
+}
 </style>
 
 <div dir="rtl" class="row container">
@@ -213,8 +258,9 @@
                 {{user.userdata.details}}
             </p>
             <p>
-              {% if user.userdata.website %} <a href="{{user.userdata.website}}">{{user.userdata.website}}</a> {% endif %}
+              {% if user.userdata.website %} <a target="_blank" href="{{user.userdata.website}}">{{user.userdata.website}}</a> {% endif %}
             </p>
+            
           </div>
         </div>
       </div>
@@ -250,7 +296,7 @@
             {% for myres in user.userdata.resume_set.all %}
             <tr>
                 <th class="col-md-2 col-xs-3" dir="rtl"><strong>{{myres.title}}</strong></th>
-                <th class="col-md-2 col-xs-3" dir="rtl"><strong>{{myres.end_year}} - {{myres.start_year}}</strong></th>
+                <th class="col-md-2 col-xs-3" dir="rtl"><strong>{{myres.get_years}}</strong></th>
                 <td class="col-md-8 col-xs-6">{{myres.text}}</td>
               </tr>
             {% endfor%}
@@ -258,8 +304,43 @@
           </table>
         </div>
       </div>
-      
-
+      {% if user.userdata.portfolio_set.all %}
+      <div class="panel panel-default">
+        <div class="panel-heading">
+        <h4 class="panel-title">תיק עבודות</h4>
+        </div>
+        <div class="panel-body">
+          <div class="conti">
+            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">          
+              <!-- Wrapper for slides -->
+              {% for prof in user.userdata.portfolio_set.all %}
+              <div id="mycaro" class="carousel-inner" role="listbox">
+                <div class="item">
+                  <div class="image-fill">
+                    <img src="{{prof.pic}}" alt="...">
+                  </div>
+                  <div class="carousel-caption">
+                    <th>{% if prof.link %} <a class="btn btn-link" target="_blank" href="{{prof.link}}">{{prof.title}}</a>{% else %}{{prof.title}}{% endif %}</th>
+                  </div>
+                </div>
+                {% endfor %}
+                
+              </div>
+            
+              <!-- Controls -->
+              <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
       
      
 
@@ -269,54 +350,57 @@
       <!-- Contact user -->
       <p>
         <a href="#" class="profile__contact-btn btn btn-lg btn-block btn-info" data-toggle="modal" data-target="#profile__contact-form">
-          Contact user
+          צור קשר
         </a>
+        <div class="text-center">
+                  <!-- just add href= for your links, like this: -->
+                  {% if user.userdata.github_link %}<a target="_blank" href="{{user.userdata.github_link}}" class="btn btn-social-icon btn-github"><i class="fa fa-github"></i></a>{% endif %}
+                  {% if user.userdata.linkedin_link %}<a target="_blank" href="{{user.userdata.linkedin_link}}" class="btn btn-social-icon btn-linkedin"><i class="fa fa-linkedin"></i></a>{% endif %}
+                </div>
       </p>
 
       <hr class="profile__contact-hr">
       
       <!-- Contact info -->
-      <div class="profile__contact-info">
+      <div  class="profile__contact-info">
         <div class="profile__contact-info-item">
           <div class="profile__contact-info-icon">
-            <i class="fa fa-phone"></i>
+            <i class="fa fa-ils"></i>
           </div>
           <div class="profile__contact-info-body">
-            <h5 class="profile__contact-info-heading">Work number</h5>
-            (000)987-65-43
+            <h5 class="profile__contact-info-heading"><strong>מחיר לשעת עבודה</strong></h5>
+            {{user.userdata.salary_per_hour}} ₪
           </div>
         </div>
-        <div class="profile__contact-info-item">
-          <div class="profile__contact-info-icon">
-            <i class="fa fa-phone"></i>
-          </div>
-          <div class="profile__contact-info-body">
-            <h5 class="profile__contact-info-heading">Mobile number</h5>
-            (000)987-65-43
-          </div>
-        </div>
-        <div class="profile__contact-info-item">
-          <div class="profile__contact-info-icon">
-            <i class="fa fa-envelope-square"></i>
-          </div>
-          <div class="profile__contact-info-body">
-            <h5 class="profile__contact-info-heading">E-mail address</h5>
-            <a href="mailto:admin@domain.com">admin@domain.com</a>
-          </div>
-        </div>
+        {% if user.userdata.city %}
+      <div  class="profile__contact-info">
         <div class="profile__contact-info-item">
           <div class="profile__contact-info-icon">
             <i class="fa fa-map-marker"></i>
           </div>
           <div class="profile__contact-info-body">
-            <h5 class="profile__contact-info-heading">Work address</h5>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+            <h5 class="profile__contact-info-heading"><strong>עיר</strong></h5>
+            {{user.userdata.city}}
           </div>
         </div>
+        {% endif %}
+        {% if user.userdata.phone %}
+        <div class="profile__contact-info-item">
+          <div class="profile__contact-info-icon">
+            <i class="fa fa-phone"></i>
+          </div>
+          <div class="profile__contact-info-body">
+            <h5 class="profile__contact-info-heading"><strong>מספר טלפון</strong></h5>
+            {{user.userdata.phone}}
+          </div>
+        </div>
+        {% endif %}
       </div>
 
     </div>
   </div>
 
-<script></script>
+<script>
+  mycaro.firstElementChild.classList.add('active');
+</script>
 {% endblock %}
